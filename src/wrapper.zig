@@ -651,6 +651,12 @@ pub fn Wrap(comptime bindings: anytype) type {
             fixed = FIXED,
         };
 
+        pub const DrawElementsTypes = enum(Enum){
+            unsigned_byte = UNSIGNED_BYTE,
+            unsigned_short = UNSIGNED_SHORT,
+            unsigned_int = UNSIGNED_INT,
+        };
+
         pub const TextureTarget = enum(Enum) {
             //--------------------------------------------------------------------------------------
             // OpenGL 1.0 (Core Profile)
@@ -1963,6 +1969,14 @@ pub fn Wrap(comptime bindings: anytype) type {
         //     type: Enum,
         //     indices: ?*const anyopaque,
         // ) callconv(.C) void = undefined;
+        pub fn drawElements(prim_type: PrimitiveType, count: u32, @"type": DrawElementsTypes, indices: usize) void{
+            bindings.drawElements(
+                @intFromEnum(prim_type),
+                @intCast(count),
+                @intFromEnum(@"type"),
+                @as(*allowzero const anyopaque, @ptrFromInt(indices)),
+            );
+        }
         // pub var polygonOffset: *const fn (factor: Float, units: Float) callconv(.C) void = undefined;
         // pub var copyTexImage1D: *const fn (
         //     target: Enum,
