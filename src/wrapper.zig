@@ -1605,7 +1605,7 @@ pub fn Wrap(comptime bindings: anytype) type {
         //     type: Enum,
         //     pixels: ?*const anyopaque,
         // ) callconv(.C) void = undefined;
-        pub fn texImage2D(args: struct {
+        pub fn texImage2D(
             target: TexImageTarget,
             level: u32,
             internal_format: InternalFormat,
@@ -1614,17 +1614,17 @@ pub fn Wrap(comptime bindings: anytype) type {
             format: PixelFormat,
             pixel_type: PixelType,
             data: ?[*]const u8,
-        }) void {
+        ) void {
             bindings.texImage2D(
-                @intFromEnum(args.target),
-                @bitCast(args.level),
-                @intFromEnum(args.internal_format),
-                @bitCast(args.width),
-                @bitCast(args.height),
+                @intFromEnum(target),
+                @bitCast(level),
+                @intFromEnum(internal_format),
+                @bitCast(width),
+                @bitCast(height),
                 0,
-                @intFromEnum(args.format),
-                @intFromEnum(args.pixel_type),
-                args.data,
+                @intFromEnum(format),
+                @intFromEnum(pixel_type),
+                data,
             );
         }
 
