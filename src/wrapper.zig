@@ -1791,8 +1791,8 @@ pub fn Wrap(comptime bindings: anytype) type {
         }
 
         // pub var getBooleanv: *const fn (pname: Enum, data: [*c]Boolean) callconv(.C) void = undefined;
-        pub fn getBooleanv(pname: ParamName, ptr: [*]Boolean) void {
-            bindings.getBooleanv(@intFromEnum(pname), ptr);
+        pub fn getBooleanv(pname: ParamName, ptr: [*]bool) void {
+            bindings.getBooleanv(@intFromEnum(pname), @ptrCast(ptr));
         }
 
         // pub var getDoublev: *const fn (pname: Enum, data: [*c]Double) callconv(.C) void = undefined;
@@ -2875,13 +2875,13 @@ pub fn Wrap(comptime bindings: anytype) type {
         pub fn uniformMatrix4fv(
             location: UniformLocation,
             count: u32,
-            transpose: Boolean,
+            transpose: bool,
             value: [*]const f32,
         ) void {
             bindings.uniformMatrix4fv(
                 @as(Int, @bitCast(location)),
                 @as(Sizei, @bitCast(count)),
-                transpose,
+                @intFromBool(transpose),
                 value,
             );
         }
@@ -2960,7 +2960,7 @@ pub fn Wrap(comptime bindings: anytype) type {
             location: VertexAttribLocation,
             size: u32,
             attrib_type: VertexAttribType,
-            normalised: Boolean,
+            normalised: bool,
             stride: u32,
             offset: usize,
         ) void {
@@ -2968,7 +2968,7 @@ pub fn Wrap(comptime bindings: anytype) type {
                 @as(Uint, @bitCast(location)),
                 @as(Int, @bitCast(size)),
                 @intFromEnum(attrib_type),
-                normalised,
+                @intFromBool(normalised),
                 @as(Sizei, @bitCast(stride)),
                 @as(*allowzero const anyopaque, @ptrFromInt(offset)),
             );
