@@ -3016,14 +3016,14 @@ pub fn Wrap(comptime bindings: anytype) type {
         pub fn uniformMatrix4fv(
             location: UniformLocation,
             count: u32,
-            transpose: Boolean,
+            transpose: bool,
             value: [*]const f32,
         ) void {
             assert(location != UniformLocation.invalid);
             bindings.uniformMatrix4fv(
                 @intFromEnum(location),
                 @as(Sizei, @bitCast(count)),
-                transpose,
+                if(transpose) TRUE else FALSE,
                 value,
             );
         }
